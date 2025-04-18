@@ -1,0 +1,36 @@
+@model TeamTaskPro.Web.Models.TeamMember
+
+@{
+    ViewData["Title"] = "Team Member Details";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2>@Model.FirstName @Model.LastName</h2>
+                </div>
+                <div class="card-body">
+                    <dl class="row">
+                        <dt class="col-sm-3">Email</dt>
+                        <dd class="col-sm-9">@Model.Email</dd>
+
+                        <dt class="col-sm-3">Phone Number</dt>
+                        <dd class="col-sm-9">@(Model.PhoneNumber ?? "Not provided")</dd>
+
+                        <dt class="col-sm-3">Department</dt>
+                        <dd class="col-sm-9">@(Model.Department ?? "Not assigned")</dd>
+
+                        <dt class="col-sm-3">Position</dt>
+                        <dd class="col-sm-9">@(Model.Position ?? "Not assigned")</dd>
+                    </dl>
+                </div>
+                <div class="card-footer">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

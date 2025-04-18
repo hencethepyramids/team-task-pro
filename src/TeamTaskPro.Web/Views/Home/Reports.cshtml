@@ -1,0 +1,176 @@
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<div class="container mt-4">
+    <h1 class="display-4 mb-4">Reports Dashboard</h1>
+    
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Task Completion Rate</h5>
+                    <div class="text-center mb-3">
+                        <canvas id="taskCompletionChart"></canvas>
+                    </div>
+                    <div class="mt-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Completed Tasks</span>
+                            <span class="text-success">75%</span>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-success" style="width: 75%"></div>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>In Progress</span>
+                            <span class="text-warning">15%</span>
+                        </div>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-warning" style="width: 15%"></div>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Not Started</span>
+                            <span class="text-danger">10%</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-danger" style="width: 10%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Team Performance</h5>
+                    <div class="text-center mb-3">
+                        <canvas id="teamPerformanceChart"></canvas>
+                    </div>
+                    <div class="mt-3">
+                        <h6>Top Performers</h6>
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>Jane Smith</strong>
+                                    <br>
+                                    <small class="text-muted">15 tasks completed</small>
+                                </div>
+                                <span class="badge bg-success rounded-pill">95%</span>
+                            </div>
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <strong>John Doe</strong>
+                                    <br>
+                                    <small class="text-muted">12 tasks completed</small>
+                                </div>
+                                <span class="badge bg-success rounded-pill">90%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Project Status</h5>
+                    <div class="text-center mb-3">
+                        <canvas id="projectStatusChart"></canvas>
+                    </div>
+                    <div class="mt-3">
+                        <h6>Upcoming Milestones</h6>
+                        <div class="list-group list-group-flush">
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Beta Release</h6>
+                                    <small class="text-muted">3 days left</small>
+                                </div>
+                                <div class="progress" style="height: 5px;">
+                                    <div class="progress-bar bg-info" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">User Testing</h6>
+                                    <small class="text-muted">1 week left</small>
+                                </div>
+                                <div class="progress" style="height: 5px;">
+                                    <div class="progress-bar bg-info" style="width: 60%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Task Completion Chart
+        new Chart(document.getElementById('taskCompletionChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Completed', 'In Progress', 'Not Started'],
+                datasets: [{
+                    data: [75, 15, 10],
+                    backgroundColor: ['#198754', '#ffc107', '#dc3545']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Team Performance Chart
+        new Chart(document.getElementById('teamPerformanceChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Jane', 'John', 'Mike', 'Sarah'],
+                datasets: [{
+                    label: 'Tasks Completed',
+                    data: [15, 12, 8, 10],
+                    backgroundColor: '#0d6efd'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Project Status Chart
+        new Chart(document.getElementById('projectStatusChart'), {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'Progress',
+                    data: [20, 45, 75, 85],
+                    borderColor: '#0dcaf0',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100
+                    }
+                }
+            }
+        });
+    </script>
+} 

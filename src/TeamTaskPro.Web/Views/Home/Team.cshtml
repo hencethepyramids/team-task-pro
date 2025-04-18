@@ -1,0 +1,135 @@
+@{
+    ViewData["Title"] = "Team";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-4">Team Members</h1>
+        <a asp-controller="TeamMember" asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-person-plus"></i> Add Member
+        </a>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-person-circle display-4"></i>
+                    </div>
+                    <h5 class="card-title">John Doe</h5>
+                    <p class="card-text text-muted">Project Manager</p>
+                    <div class="mt-3">
+                        <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#messageModal1">
+                            <i class="bi bi-chat"></i> Message
+                        </button>
+                        <a asp-controller="TeamMember" asp-action="Details" asp-route-id="1" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-person"></i> View Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-person-circle display-4"></i>
+                    </div>
+                    <h5 class="card-title">Jane Smith</h5>
+                    <p class="card-text text-muted">Developer</p>
+                    <div class="mt-3">
+                        <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#messageModal2">
+                            <i class="bi bi-chat"></i> Message
+                        </button>
+                        <a asp-controller="TeamMember" asp-action="Details" asp-route-id="2" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-person"></i> View Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <i class="bi bi-person-circle display-4"></i>
+                    </div>
+                    <h5 class="card-title">Mike Johnson</h5>
+                    <p class="card-text text-muted">Designer</p>
+                    <div class="mt-3">
+                        <button class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#messageModal3">
+                            <i class="bi bi-chat"></i> Message
+                        </button>
+                        <a asp-controller="TeamMember" asp-action="Details" asp-route-id="3" class="btn btn-outline-secondary btn-sm">
+                            <i class="bi bi-person"></i> View Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Message Modals -->
+@for (int i = 1; i <= 3; i++)
+{
+    <div class="modal fade" id="messageModal@(i)" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Send Message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="messageForm@(i)" onsubmit="return sendMessage(@i, event)">
+                        <input type="hidden" name="receiverId" value="@i" />
+                        <div class="mb-3">
+                            <label for="messageContent@(i)" class="form-label">Message</label>
+                            <textarea class="form-control" id="messageContent@(i)" name="content" rows="3" required></textarea>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Send</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        function sendMessage(receiverId, event) {
+            event.preventDefault();
+            var form = document.getElementById('messageForm' + receiverId);
+            var formData = new FormData(form);
+
+            fetch('@Url.Action("SendMessage", "TeamMember")', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    var modal = bootstrap.Modal.getInstance(document.getElementById('messageModal' + receiverId));
+                    modal.hide();
+                    form.reset();
+                    alert('Message sent successfully!');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to send message. Please try again.');
+            });
+
+            return false;
+        }
+    </script>
+} 
