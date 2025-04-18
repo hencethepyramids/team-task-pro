@@ -62,6 +62,23 @@ The application uses ASP.NET Core Identity with the following default settings:
 - Account Confirmation: Required
 - Two-Factor Authentication: Optional
 
+### Admin Setup
+
+For security reasons, admin credentials are not stored in configuration files. Instead, follow these steps to set up an admin account:
+
+1. Register a new account through the application's registration page
+2. Contact your system administrator to grant admin privileges to your account
+3. Alternatively, use the database seeder to create an initial admin account (development only)
+
+## Security Best Practices
+
+1. Never commit credentials or sensitive information to version control
+2. Use environment variables or secure configuration providers for sensitive data
+3. Change default passwords immediately after setup
+4. Enable two-factor authentication for admin accounts
+5. Regularly update dependencies to patch security vulnerabilities
+6. Follow the principle of least privilege when assigning roles
+
 ## Database
 
 The application uses SQLite for data storage. The database file will be created automatically when you first run the application.
